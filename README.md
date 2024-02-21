@@ -29,7 +29,7 @@ start-streamlit.cmd
 #### Streamlit を用いて作成した Web App を起動した際にアクセスする URL
 
 ```
-http://127.0.0.1:6080/
+http://127.0.0.1:9000/
 ```
 
 ## FastAPI の実行

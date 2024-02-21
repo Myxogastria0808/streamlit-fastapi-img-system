@@ -1,41 +1,53 @@
 library(plumber)
 
-#* @apiTitle Hello, World API
-#* @apiDescription This is a hello world's API
-#利用規約ドキュメントのURL
-#* apiTOS http://example.com/terms/
-#* @apiContact list(name = "API Support", url = "http://example.com/support", email = "r.rstudio.c@gmail.com")
+#参考: https://www.rplumber.io/articles/annotations.html
+# Title
+#* @apiTitle Sample API
+# Description
+#* @apiDescription This is a sample API
+# TOS link
+#* @apiTOS
+# Contact object
+#* @apiContact list(name = "Yuki Osada", url = "http://yukiosada.work/", email = "r.rstudio.c@gmail.com")
+# License object
 #* @apiLicense list(name = "Apache 2.0", url = "https://www.apache.org/licenses/LICENSE-2.0.html")
-#* @apiVersion 1.0.0
+# Version
+#* @apiVersion 0.0.1
+# Tag Description
+#* @apiTag sample Sample API
 
 
-#* Echo back the input
-#* @param msg The message to echo
-#* @get /echo
-function(msg = "") {
-    list(msg = paste0("The message is: '", msg, "'"))
+#* dataディレクトリ内のsvg画像を取得できる
+#* @param generation 世代数を入力してください。
+#* @param img 取得したい画像の番号を入力してください。
+#* @get /generation/<generation:int>/img/<img:int>
+function(generation, img) {
+    return(generation + img)
 }
 
-#* Plot a histogram
-#* @serializer png
-#* @get /plot
+#* dataディレクトリ内のディレクトリの一覧を取得できる
+#* @get /archive
 function() {
-    rand <- rnorm(100)
-    hist(rand)
+    root_dir <- getwd()
+    root_archive_dir <- paste0(getwd(), "/archive")
+    setwd(root_archive_dir)
+    root_archive_dirs <- dir()
+    result_list <- list()
+    for (archive_dir in root_archive_dirs) {
+        each_archive_dir <- paste0(root_archive_dir, "/", archive_dir)
+        setwd(each_archive_dir)
+        generation_dirs <- dir()
+        result_list <- append(result_list, list(c(archive_dir, generation_dirs)))
+    }
+    setwd(root_dir)
+    return(list(archive = result_list))
 }
 
-#* Return the sum of two numbers
-#* @param a:int
-#* @param b:int
-#* @post /sum
-function(a, b) {
-    as.numeric(a) + as.numeric(b)
-}
-
-# Programmatically alter your API
-#* @plumber
-function(pr) {
-    pr %>%
-        # Overwrite the default serializer to return unboxed JSON
-        pr_set_serializer(serializer_unboxed_json())
+#* dataディレクトリ内のsvg画像を取得できる
+#* @param generation 世代数を入力してください。
+#* @param img 取得したい画像の番号を入力してください。
+#* @serializer contentType list(type="image/svg+xml")
+#* @get /archive/<dir_name>/generation/<generation:int>/img/<img:int>
+function(dir_name, generation, img) {
+    return(paste0("dir_name: ", dir_name, "generation: ", generation, "img: ", img))
 }
