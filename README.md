@@ -23,6 +23,7 @@ poetry install --no-root
 ## Streamlit の実行
 
 ```batch
+poetry shell
 start-streamlit.cmd
 ```
 
@@ -35,7 +36,8 @@ http://127.0.0.1:9000/
 ## FastAPI の実行
 
 ```batch
-cd api
+poetry shell
+cd fastapi
 start-fastapi.cmd
 ```
 

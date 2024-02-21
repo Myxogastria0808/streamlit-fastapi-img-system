@@ -20,9 +20,11 @@ library(plumber)
 #* dataディレクトリ内のsvg画像を取得できる
 #* @param generation 世代数を入力してください。
 #* @param img 取得したい画像の番号を入力してください。
+#* @serializer contentType list(type="image/svg+xml")
 #* @get /generation/<generation:int>/img/<img:int>
 function(generation, img) {
-    return(generation + img)
+    file_path <- paste0(getwd(), "/data/", generation, "/", img, ".svg")
+    readBin(file_path, "raw", n=file.info(file_path)$size)
 }
 
 #* dataディレクトリ内のディレクトリの一覧を取得できる
@@ -49,5 +51,6 @@ function() {
 #* @serializer contentType list(type="image/svg+xml")
 #* @get /archive/<dir_name>/generation/<generation:int>/img/<img:int>
 function(dir_name, generation, img) {
-    return(paste0("dir_name: ", dir_name, "generation: ", generation, "img: ", img))
+    file_path <- paste0(getwd(), "/archive/", dir_name, "/", generation, "/", img, ".svg")
+    readBin(file_path, "raw", n=file.info(file_path)$size)
 }

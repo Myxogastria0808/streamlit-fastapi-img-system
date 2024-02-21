@@ -8,6 +8,8 @@ import datetime
 import copy
 
 
+st.set_page_config(page_title="Sample App", page_icon="🐎", layout="centered", initial_sidebar_state="auto", menu_items=None)
+
 uploaded_files = st.file_uploader(
     "アップロードする順番で世代数が決まります。",
     type="csv",
@@ -16,6 +18,7 @@ uploaded_files = st.file_uploader(
 
 if st.button('実行', key='execute', help='処理を実行します。'):
     if uploaded_files is not None:
+        #Fast API用 (plumber用とほぼ処理は変わらない)#########################################################
         #*data
         root: str = os.getcwd()
         os.chdir("fastapi")
@@ -27,8 +30,6 @@ if st.button('実行', key='execute', help='処理を実行します。'):
             df: pd.DataFrame = pd.read_csv(file)
             generation_dir_path: str = root + "\\fastapi\\data\\" + str(i+1)
             os.makedirs(generation_dir_path, exist_ok=False)
-            #* 取得
-            st.write(os.getcwd())
             os.chdir("data")
             os.chdir(str(i+1))
             for i in range(df.shape[0]):
@@ -40,17 +41,10 @@ if st.button('実行', key='execute', help='処理を実行します。'):
                 plt.rcParams["svg.fonttype"] = "none"
                 plt.savefig(img_name, format="svg")
                 plt.close("all")
-
-                st.write(data)
             os.chdir("../../")
-            #* 取得
-            st.write(os.getcwd())
         os.chdir("../")
-        #* 取得
-        st.write(os.getcwd())
 
         #*archive
-        # root: str = os.getcwd()
         time_dir = datetime.datetime.now().strftime('%Y-%m-%dT%H-%M-%S')
         dir_path = root + "\\fastapi\\archive\\" + time_dir
         os.makedirs(dir_path, exist_ok=False)
@@ -73,10 +67,8 @@ if st.button('実行', key='execute', help='処理を実行します。'):
                 plt.rcParams["svg.fonttype"] = "none"
                 plt.savefig(img_name, format="svg")
                 plt.close('all')
-
-                st.write(data)
             os.chdir("../../../../")
-        ##########################################################
+        #plumber用 (Fast API用とほぼ処理は変わらない)#########################################################
         #*data
         root: str = os.getcwd()
         os.chdir("plumber")
@@ -88,8 +80,6 @@ if st.button('実行', key='execute', help='処理を実行します。'):
             df: pd.DataFrame = pd.read_csv(file)
             generation_dir_path: str = root + "\\plumber\\data\\" + str(i+1)
             os.makedirs(generation_dir_path, exist_ok=False)
-            #* 取得
-            st.write(os.getcwd())
             os.chdir("data")
             os.chdir(str(i+1))
             for i in range(df.shape[0]):
@@ -101,17 +91,10 @@ if st.button('実行', key='execute', help='処理を実行します。'):
                 plt.rcParams["svg.fonttype"] = "none"
                 plt.savefig(img_name, format="svg")
                 plt.close("all")
-
-                st.write(data)
             os.chdir("../../")
-            #* 取得
-            st.write(os.getcwd())
         os.chdir("../")
-        #* 取得
-        st.write(os.getcwd())
 
         #*archive
-        # root: str = os.getcwd()
         time_dir = datetime.datetime.now().strftime('%Y-%m-%dT%H-%M-%S')
         dir_path = root + "\\plumber\\archive\\" + time_dir
         os.makedirs(dir_path, exist_ok=False)
@@ -132,6 +115,4 @@ if st.button('実行', key='execute', help='処理を実行します。'):
                 plt.rcParams["svg.fonttype"] = "none"
                 plt.savefig(img_name, format="svg")
                 plt.close('all')
-
-                st.write(data)
             os.chdir("../../../../")
