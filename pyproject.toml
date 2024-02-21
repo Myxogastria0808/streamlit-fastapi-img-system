@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "streamlit-tutorial"
+name = "streamlit-fastapi-img-system"
 version = "0.1.0"
 description = ""
 authors = ["'Myxogastria0808' <r.rstudio.c@gmail.com>"]
@@ -8,7 +8,6 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 streamlit = "^1.31.1"
-requests = "^2.31.0"
 pandas = "^2.2.0"
 fastapi = "^0.109.2"
 uvicorn = {extras = ["standards"], version = "^0.27.1"}

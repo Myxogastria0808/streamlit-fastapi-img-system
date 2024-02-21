@@ -19,10 +19,10 @@ app.add_middleware(
 @app.get("/generation/{generation}/img/{img}")
 async def search_img(generation: int, img: int):
     current: Path = Path()
-    img_name = str(img) + ".png"
+    img_name = str(img) + ".svg"
     url_path: str = "data/" + str(generation) + "/" + img_name
     file_path: Path = current/url_path
-    return FileResponse(path=file_path, media_type="image/png", filename=img_name)
+    return FileResponse(path=file_path, media_type="image/svg+xml")
 
 @app.get("/archive")
 async def archive():
@@ -39,7 +39,7 @@ async def archive():
 @app.get("/archive/{dir_name}/generation/{generation}/img/{img}")
 async def search_archive_img(dir_name: str, generation: int, img: int):
     current: Path = Path()
-    img_name = str(img) + ".png"
+    img_name = str(img) + ".svg"
     url_path: str = "archive/" + dir_name + "/" + str(generation) + "/" + img_name
     file_path: Path = current/url_path
-    return FileResponse(path=file_path, media_type="image/png", filename=img_name)
+    return FileResponse(path=file_path, media_type="image/svg+xml")

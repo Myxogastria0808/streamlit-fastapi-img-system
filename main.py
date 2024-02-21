@@ -18,7 +18,7 @@ if st.button('実行', key='execute', help='処理を実行します。'):
     if uploaded_files is not None:
         #*data
         root: str = os.getcwd()
-        os.chdir("api")
+        os.chdir("fastapi")
         shutil.rmtree("data")
         os.makedirs(root + "\\api\\data\\", exist_ok=False)
         #仮
@@ -36,8 +36,9 @@ if st.button('実行', key='execute', help='処理を実行します。'):
 
                 plt.figure()
                 df.plot()
-                png_name: str = str(i+1) + ".png"
-                plt.savefig(png_name)
+                img_name: str = str(i+1) + ".svg"
+                plt.rcParams["svg.fonttype"] = "none"
+                plt.savefig(img_name, format="svg")
                 plt.close("all")
 
                 st.write(data)
@@ -56,7 +57,7 @@ if st.button('実行', key='execute', help='処理を実行します。'):
         for i, file in enumerate(uploaded_files):
             df: pd.DataFrame = pd.read_csv(file)
             generation_dir_path: str = dir_path + "\\" + str(i+1)
-            os.chdir("api")
+            os.chdir("fastapi")
             os.makedirs(generation_dir_path, exist_ok=False)
             os.chdir("archive")
             os.chdir(time_dir)
@@ -66,8 +67,9 @@ if st.button('実行', key='execute', help='処理を実行します。'):
 
                 plt.figure()
                 df.plot()
-                png_name: str = str(i+1) + ".png"
-                plt.savefig(png_name)
+                img_name: str = str(i+1) + ".svg"
+                plt.rcParams["svg.fonttype"] = "none"
+                plt.savefig(img_name, format="svg")
                 plt.close('all')
 
                 st.write(data)
