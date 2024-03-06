@@ -17,10 +17,21 @@ library(plumber)
 #* @apiTag sample Sample API
 
 
+#* @filter cors
+cors <- function(res) {
+    res$setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:9000")
+    res$setHeader("Access-Control-Allow-Method", "GET")
+    res$setHeader("Access-Control-Allow-Headers", "*")
+        res$setHeader("Access-Control-Allow-Credentials", TRUE)
+    plumber::forward()
+}
+
+
 #* dataディレクトリ内のsvg画像を取得できる
 #* @param generation 世代数を入力してください。
 #* @param img 取得したい画像の番号を入力してください。
 #* @serializer contentType list(type="image/svg+xml")
+#* @preempt cors
 #* @get /generation/<generation:int>/img/<img:int>
 function(generation, img) {
     file_path <- paste0(getwd(), "/data/", generation, "/", img, ".svg")
@@ -28,6 +39,7 @@ function(generation, img) {
 }
 
 #* dataディレクトリ内のディレクトリの一覧を取得できる
+#* @preempt cors
 #* @get /archive
 function() {
     root_dir <- getwd()
@@ -49,6 +61,7 @@ function() {
 #* @param generation 世代数を入力してください。
 #* @param img 取得したい画像の番号を入力してください。
 #* @serializer contentType list(type="image/svg+xml")
+#* @preempt cors
 #* @get /archive/<dir_name>/generation/<generation:int>/img/<img:int>
 function(dir_name, generation, img) {
     file_path <- paste0(getwd(), "/archive/", dir_name, "/", generation, "/", img, ".svg")
